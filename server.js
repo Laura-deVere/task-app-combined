@@ -1,38 +1,41 @@
+import "express-async-errors";
 import * as dotenv from "dotenv";
 dotenv.config();
 
 import express from "express";
 const app = express();
 import morgan from "morgan";
+import mongoose from "mongoose";
 
+// Routes
 import projectsRouter from "./routes/projectsRouter.js";
-import { mongo } from "mongoose";
+
+// Middleware
+import errorHandlerMiddleware from "./middleware/errorHandler.js";
 
 if (process.env.NODE_ENV === "development") {
 	app.use(morgan("dev"));
 }
 
-app.use("/api/projects", projectsRouter);
+app.use(express.json());
+
+app.use("/api/v1", projectsRouter);
 
 app.use("*", (req, res) => {
 	// access resource we don't have
 	res.status(404).json({ message: "Not found" });
 });
 
-app.use((err, req, res, next) => {
-	// handle error
-	console.error(err);
-	res.status(500).json({ message: "Something went wrong" });
-});
+app.use(errorHandlerMiddleware);
 
 const port = process.env.PORT || 5100;
 
 try {
-	await mongo.connect(process.env.MONGO_URI);
+	await mongoose.connect(process.env.MONGO_URL);
 	app.listen(port, () => {
-		console.log(`Server is running on port ${port}...`);
+		console.log(`server running on PORT ${port}...`);
 	});
 } catch (error) {
-	console.error("Error connecting to the database");
+	console.log(error);
 	process.exit(1);
 }
