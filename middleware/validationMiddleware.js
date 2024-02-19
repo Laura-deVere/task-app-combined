@@ -4,6 +4,7 @@ import { BadRequestError, NotFoundError } from "../errors/customErrors.js";
 import mongoose from "mongoose";
 
 import Project from "../models/Project.js";
+import User from "../models/User.js";
 
 export const withValidationErrors = (validateValues) => {
 	return [
@@ -40,4 +41,26 @@ export const validateProjectIdParam = withValidationErrors([
 			if (!project) throw new NotFoundError("project not found");
 		})
 		.withMessage("Invalid mongoDB id."),
+]);
+
+export const validateRegister = withValidationErrors([
+	// email: String,
+	// password: String,
+	// firstName: String,
+	// lastName: String,
+	body("firstName").notEmpty().withMessage("Name is required"),
+	body("email")
+		.notEmpty()
+		.withMessage("Email is required")
+		.isEmail()
+		.withMessage("Invalid email format.")
+		.custom(async (email) => {
+			const user = await User.findOne({ email });
+			if (user) throw new BadRequestError("Email already in use.");
+		}),
+	body("password")
+		.notEmpty()
+		.withMessage("Password is required")
+		.isLength({ min: 8 })
+		.withMessage("Password must be at least 8 characters."),
 ]);

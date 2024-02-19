@@ -21,7 +21,7 @@ if (process.env.NODE_ENV === "development") {
 app.use(express.json());
 
 app.use("/api/v1", projectsRouter);
-app.use("/api/v1/auth", projectsRouter);
+app.use("/api/v1/auth", authRouter);
 
 app.use("*", (req, res) => {
 	// access resource we don't have
