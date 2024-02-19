@@ -7,4 +7,4 @@ const UserSchema = new mongoose.Schema({
 	lastName: String,
 });
 
-export default mongoose.model("users", userSchema);
+export default mongoose.model("User", UserSchema);

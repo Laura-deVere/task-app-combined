@@ -3,7 +3,7 @@ import { BadRequestError, NotFoundError } from "../errors/customErrors.js";
 
 import mongoose from "mongoose";
 
-import { Project } from "../models/Project.js";
+import Project from "../models/Project.js";
 
 export const withValidationErrors = (validateValues) => {
 	return [

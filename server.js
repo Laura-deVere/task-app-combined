@@ -9,9 +9,10 @@ import mongoose from "mongoose";
 
 // Routes
 import projectsRouter from "./routes/projectsRouter.js";
+import authRouter from "./routes/authRouter.js";
 
 // Middleware
-import errorHandlerMiddleware from "./middleware/errorHandler.js";
+import errorHandlerMiddleware from "./middleware/errorHandlerMiddleware.js";
 
 if (process.env.NODE_ENV === "development") {
 	app.use(morgan("dev"));
@@ -20,6 +21,7 @@ if (process.env.NODE_ENV === "development") {
 app.use(express.json());
 
 app.use("/api/v1", projectsRouter);
+app.use("/api/v1/auth", projectsRouter);
 
 app.use("*", (req, res) => {
 	// access resource we don't have
