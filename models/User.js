@@ -7,4 +7,9 @@ const UserSchema = new mongoose.Schema({
 	lastName: String,
 });
 
+UserSchema.methods.toJSON = function () {
+	let obj = this.toObject(); //transform to JS object
+	delete obj.password;
+	return obj;
+};
 export default mongoose.model("User", UserSchema);

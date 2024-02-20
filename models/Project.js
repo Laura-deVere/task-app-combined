@@ -7,8 +7,8 @@ const projectSchema = new Schema(
 		// _id is added automatically
 		name: { type: String, required: true },
 		tasks: [TaskSchema],
-		// _userId: { type: Schema.Types.ObjectId, ref: "User", required: true },
-		_userId: { type: String, ref: "User", required: false },
+		userId: { type: Schema.Types.ObjectId, ref: "User", required: true },
+		// _userId: { type: String, ref: "User", required: false },
 	},
 	{ timestamps: true }
 );
