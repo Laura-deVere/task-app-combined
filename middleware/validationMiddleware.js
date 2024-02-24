@@ -82,3 +82,17 @@ export const validateLogin = withValidationErrors([
 		.withMessage("Invalid email format."),
 	body("password").notEmpty().withMessage("Password is required"),
 ]);
+
+export const validateUpdateUser = withValidationErrors([
+	body("firstName").notEmpty().withMessage("Name is required"),
+	body("email")
+		.notEmpty()
+		.withMessage("Email is required")
+		.isEmail()
+		.withMessage("Invalid email format.")
+		.custom(async (email, { req }) => {
+			const user = await User.findOne({ email });
+			if (user && user._id.toString() !== req.user.userId)
+				throw new BadRequestError("Email already in use.");
+		}),
+]);

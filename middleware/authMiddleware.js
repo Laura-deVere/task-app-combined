@@ -14,3 +14,12 @@ export const authenticateUser = async (req, res, next) => {
 		throw new UnauthenticatedError("authentication invalid");
 	}
 };
+
+export const authorizePermissions = (...roles) => {
+	return (req, res, next) => {
+		console.log("authorizePermissions middleware============", roles);
+		if (!roles.includes(req.user.role))
+			throw new UnauthenticatedError("not authorized to access this route.");
+		next();
+	};
+};

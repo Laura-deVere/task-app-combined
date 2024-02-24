@@ -10,8 +10,15 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@ionic/react": "^7.7.3",
+    "axios": "^1.6.7",
+    "immutability-helper": "^3.1.1",
     "react": "^18.2.0",
-    "react-dom": "^18.2.0"
+    "react-dnd": "^16.0.1",
+    "react-dnd-html5-backend": "^16.0.1",
+    "react-dom": "^18.2.0",
+    "react-id-generator": "^3.0.2",
+    "sass": "^1.71.1"
   },
   "devDependencies": {
     "@types/react": "^18.2.55",

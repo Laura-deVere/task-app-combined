@@ -1,0 +1,82 @@
+@import "../../scss/colors.scss";
+
+.new-project {
+	background-color: $gray-3;
+	border: 1px solid $gray-6;
+	color: white;
+	padding: 12px;
+	display: flex;
+	flex-direction: column;
+	border-radius: 8px;
+	input[type="text"] {
+		margin-bottom: 12px;
+		width: 100%;
+		&:focus-visible {
+			outline: 0.5px solid $gray-6;
+			border-radius: 4px;
+			outline-offset: 2px;
+		}
+	}
+	form {
+		display: flex;
+		flex-direction: column;
+	}
+	input[type="checkbox"] {
+		margin: 0 8px 0 0;
+		padding: 0;
+		&:focus-visible {
+			outline: 1px dotted $orange;
+			outline-offset: 2px;
+		}
+	}
+	button[type="submit"] {
+		align-self: flex-end;
+		background-color: $orange;
+		border: none;
+		color: $gray-2;
+		padding: 4px 8px;
+		border-radius: 4px;
+		font-size: 14px;
+		font-family: "Montserrat", sans-serif;
+		font-weight: 300;
+		cursor: pointer;
+		&:focus-visible {
+			outline: 1px dotted $orange;
+			outline-offset: 2px;
+		}
+	}
+	&__tasks {
+		display: none;
+		ul {
+			list-style: none;
+			padding: 0;
+			margin: 0;
+		}
+	}
+	&__action-btns {
+		display: none;
+		justify-content: flex-end;
+		button {
+			margin-left: 8px;
+		}
+	}
+	&:focus-within {
+		.new-project__tasks {
+			display: block;
+		}
+		.new-project__action-btns {
+			display: flex;
+		}
+	}
+	.add-task {
+		background-color: transparent;
+		color: white;
+		font-size: 22px;
+		cursor: pointer;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		border: none;
+		padding: 0;
+	}
+}

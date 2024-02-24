@@ -9,7 +9,7 @@ const UserSchema = new mongoose.Schema({
 
 UserSchema.methods.toJSON = function () {
 	let obj = this.toObject(); //transform to JS object
-	delete obj.password;
+	delete obj.password; // dont' want to send password to client
 	return obj;
 };
 export default mongoose.model("User", UserSchema);

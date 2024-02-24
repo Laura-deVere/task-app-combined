@@ -1,0 +1,54 @@
+@import "../../scss/colors.scss";
+
+.checkbox-wrapper {
+	margin-bottom: 8px;
+	input[type="checkbox"] {
+		/* removing default appearance */
+		-webkit-appearance: none;
+		appearance: none;
+		/* creating a custom design */
+		width: 1.2em;
+		height: 1.2em;
+		border-radius: 0.15em;
+		margin-right: 0.5em;
+		border: 0.15em solid $orange;
+		outline: none;
+		cursor: pointer;
+	}
+	&__checked {
+		background-color: $orange;
+		position: relative;
+	}
+	&__checked::before {
+		content: "✓";
+		font-size: 1.4em;
+		color: $gray-1;
+		position: absolute;
+		right: -1px;
+		top: -5px;
+	}
+
+	input:checked {
+		background-color: $orange;
+		position: relative;
+	}
+
+	input:checked::before {
+		content: "✓";
+		font-size: 1.5em;
+		color: #fff;
+		position: absolute;
+		right: -1px;
+		top: -5px;
+	}
+	input[type="checkbox"]:disabled {
+		border-color: $gray-6;
+		background-color: $gray-6;
+	}
+	input[type="checkbox"]:disabled + span {
+		color: $gray-6;
+	}
+	input[type="checkbox"]:focus {
+		box-shadow: 0 0 5px $orange;
+	}
+}

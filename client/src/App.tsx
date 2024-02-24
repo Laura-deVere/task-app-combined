@@ -1,35 +1,70 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import { useEffect, useState } from "react";
+// import reactLogo from './assets/react.svg'
 
-function App() {
-  const [count, setCount] = useState(0)
+import { ProjectsProvider } from "./context/projects-context";
+import { getUser } from "./services/auth-api";
 
-  return (
-    <>
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
-}
+import TopNav from "./components/top-nav";
+import NewProject from "./components/new-project/new-project";
+import ProjectsList from "./components/project-list/projects-list";
 
-export default App
+import "./App.scss";
+
+const App = () => {
+	const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false);
+	const [user, setUser] = useState<any>(null);
+
+	// useEffect(() => {
+	// 	fetchUser();
+	// }, []);
+
+	// const fetchUser = async () => {
+	// 	try {
+	// 		const user = await getUser();
+	// 		console.log("user", user);
+	// 		if (user?._id) {
+	// 			setUser(true);
+	// 			setIsLoggedIn(true);
+	// 		}
+	// 	} catch (error) {
+	// 		console.log(error);
+	// 	}
+	// };
+
+	return (
+		<>
+			<TopNav userName={user?.firstName} />
+			{isLoggedIn ? (
+				<ProjectsProvider isLoggedIn={isLoggedIn}>
+					<section className='section-prj-new'>
+						<NewProject />
+					</section>
+					<section className='section-prj-list'>
+						<ProjectsList />
+					</section>
+				</ProjectsProvider>
+			) : (
+				<div
+					className='login'
+					style={{
+						color: "#fff",
+						display: "flex",
+						width: "100%",
+						height: "100vh",
+						justifyContent: "center",
+						alignItems: "center",
+						flexDirection: "column",
+					}}
+				>
+					<p>Please login</p>
+					<div>
+						<button>Sign in</button>
+						<button>Sign up</button>
+					</div>
+				</div>
+			)}
+		</>
+	);
+};
+
+export default App;
