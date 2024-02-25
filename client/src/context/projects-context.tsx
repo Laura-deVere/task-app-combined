@@ -77,11 +77,11 @@ const ProjectsProvider: React.FC<{ children: any; isLoggedIn: boolean }> = ({
 
 	useEffect(() => {
 		if (isLoggedIn) {
-			fetch(`/api/projects`, {
-				method: "GET",
-			})
-				.then((res) => res.json())
-				.then((data) => dispatch({ type: ACTIONS.GET_PROJECTS, payload: data }))
+			ProjectsApi.getProjects()
+				.then(({ data }) => {
+					console.log("projects", data.projects);
+					dispatch({ type: ACTIONS.GET_PROJECTS, payload: data?.projects });
+				})
 				.catch((err) => {
 					console.error(err);
 				});
@@ -89,9 +89,9 @@ const ProjectsProvider: React.FC<{ children: any; isLoggedIn: boolean }> = ({
 	}, [isLoggedIn]);
 
 	const createProject = async (project: Project) => {
-		console.log("createProject", project);
 		try {
-			const newProject = await ProjectsApi.createProject(project);
+			const { data } = await ProjectsApi.createProject(project);
+			const newProject = data.project;
 			dispatch({ type: ACTIONS.CREATE_PROJECT, payload: newProject });
 		} catch (error) {
 			console.log(error);

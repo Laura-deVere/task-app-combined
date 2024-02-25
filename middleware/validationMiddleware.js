@@ -35,7 +35,6 @@ export const validateProject = withValidationErrors([
 		.isLength({ min: 3 })
 		.withMessage("Name must be at least 3 characters"),
 	body("tasks").isArray().withMessage("Tasks must be an array"),
-	body("_userId").isMongoId().withMessage("Invalid user id"),
 ]);
 
 export const validateProjectIdParam = withValidationErrors([

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useMemo } from "react";
 import { redirect, useLoaderData } from "react-router-dom";
 
 import { ProjectsProvider } from "../context/projects-context";
@@ -15,9 +15,13 @@ export const loader = async () => {
 	}
 };
 
-const PageProjects: React.FC<{ isLoggedIn: boolean }> = ({ isLoggedIn }) => {
+const PageProjects: React.FC<{}> = () => {
 	const data = useLoaderData();
-	console.log(data);
+	const isLoggedIn = useMemo(() => {
+		if (!data) return false;
+		return data?.user ? true : false;
+	}, [data]);
+	console.log("isLoggedIn", isLoggedIn);
 	return (
 		<ProjectsProvider isLoggedIn={isLoggedIn}>
 			<section className='section-prj-new'>

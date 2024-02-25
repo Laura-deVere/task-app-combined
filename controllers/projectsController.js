@@ -2,13 +2,15 @@ import Project from "../models/Project.js";
 import { StatusCodes } from "http-status-codes";
 
 export const getAllProjects = async (req, res) => {
-	console.log("getAllProjects middleware============", req.user);
+	console.log("getAllProjects", req.user);
 	const projects = await Project.find({ userId: req.user.userId }); //gets all of project instances
 	res.status(StatusCodes.OK).json({ projects });
 };
 
 export const createProject = async (req, res) => {
-	const { name, tasks, userId } = req.body;
+	console.log("createProject", req.body, req.user.userId);
+	const { name, tasks } = req.body;
+	const { userId } = req.user;
 	const project = await Project.create({ name, tasks, userId });
 	res.status(StatusCodes.CREATED).json({ project });
 };

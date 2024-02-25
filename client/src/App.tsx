@@ -35,7 +35,7 @@ const router = createBrowserRouter([
 			},
 			{
 				path: "projects",
-				element: <PageProjects isLoggedIn={false} />,
+				element: <PageProjects />,
 				loader: ProjectsLoader,
 			},
 			{

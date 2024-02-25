@@ -1,18 +1,21 @@
-// const APP_SERVER_ENDPOINT = import.meta.env.VITE_API_ENDPOINT;
-
 import { Project } from "../types";
+import customFetch from "../utils/customFetch";
 
 class ProjectsApi {
+	getProjects() {
+		return customFetch
+			.get("/projects")
+			.then((data) => data)
+			.catch((err) => {
+				console.error(err);
+				return err;
+			});
+	}
+
 	createProject(project: Project) {
 		console.log("body project", project);
-		return fetch(`http://localhost:5050/api/project`, {
-			method: "POST",
-			body: JSON.stringify(project),
-			headers: {
-				"Content-Type": "application/json",
-			},
-		})
-			.then((res) => res.json())
+		return customFetch
+			.post(`/project`, project)
 			.then((data) => data)
 			.catch((err) => {
 				console.error(err);
@@ -21,10 +24,8 @@ class ProjectsApi {
 	}
 
 	deleteProject(projectId: string) {
-		return fetch(`http://localhost:5050/api/project/${projectId}`, {
-			method: "DELETE",
-		})
-			.then((res) => res.json())
+		return customFetch
+			.delete(`/project/${projectId}`)
 			.then((data) => data)
 			.catch((err) => {
 				console.error(err);
@@ -33,14 +34,8 @@ class ProjectsApi {
 	}
 
 	editProject(project: Project) {
-		return fetch(`/api/project/${project._id}`, {
-			method: "PUT",
-			body: JSON.stringify(project),
-			headers: {
-				"Content-Type": "application/json",
-			},
-		})
-			.then((res) => res.json())
+		return customFetch
+			.patch(`/project/${project._id}`, project)
 			.then((data) => data)
 			.catch((err) => {
 				console.error(err);

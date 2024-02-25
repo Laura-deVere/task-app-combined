@@ -15,7 +15,7 @@ import {
 
 router.get("/projects", getAllProjects);
 
-router.post("/project", validateProject, createProject);
+router.post("/project", createProject);
 
 router.patch(
 	"/project/:id",
