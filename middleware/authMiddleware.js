@@ -9,6 +9,7 @@ export const authenticateUser = async (req, res, next) => {
 	try {
 		const { userId } = verifyToken(token);
 		req.user = { userId };
+		console.log("req.user", req.user);
 		next();
 	} catch (error) {
 		throw new UnauthenticatedError("authentication invalid");

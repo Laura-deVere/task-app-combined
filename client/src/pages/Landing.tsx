@@ -1,4 +1,6 @@
-const PageLanding = () => {
+import { Link } from "react-router-dom";
+
+const PageLanding: React.FC<{}> = () => {
 	return (
 		<section
 			id='pageLanding'
@@ -15,8 +17,8 @@ const PageLanding = () => {
 		>
 			<p>Please login</p>
 			<div>
-				<button>Sign in</button>
-				<button>Sign up</button>
+				<Link to='/login'>Sign in</Link>
+				<Link to='/register'>Sign up</Link>
 			</div>
 		</section>
 	);

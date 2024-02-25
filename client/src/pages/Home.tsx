@@ -2,7 +2,7 @@ import { Outlet } from "react-router-dom";
 
 import TopNav from "../components/top-nav";
 
-const PageHome = () => {
+const PageHome: React.FC<{}> = () => {
 	return (
 		<div id='pageHome'>
 			<TopNav userName={"user?.firstName"} />

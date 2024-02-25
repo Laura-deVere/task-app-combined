@@ -32,6 +32,7 @@ export const login = async (req, res) => {
 };
 
 export const logout = async (req, res) => {
+	console.log("logging out on server");
 	res.cookie("token", "logout", {
 		httpOnly: true,
 		expires: new Date(Date.now() + 1000), //expire now
