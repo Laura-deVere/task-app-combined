@@ -34,30 +34,10 @@ const Register: React.FC = () => {
 		<section className={className}>
 			<Form method='post' className='form'>
 				<h1 className={`${classNamePrefix}header`}>Register</h1>
-				<FormRow
-					type='text'
-					name='firstName'
-					labelText='First name'
-					defaultValue='Jane'
-				/>
-				<FormRow
-					type='text'
-					name='lastName'
-					labelText='Last name'
-					defaultValue='Doe'
-				/>
-				<FormRow
-					type='email'
-					name='email'
-					labelText='Email'
-					defaultValue='jane@jane.com'
-				/>
-				<FormRow
-					type='password'
-					name='password'
-					labelText='Password'
-					defaultValue='pw123456'
-				/>
+				<FormRow type='text' name='firstName' labelText='First name' />
+				<FormRow type='text' name='lastName' labelText='Last name' />
+				<FormRow type='email' name='email' labelText='Email' />
+				<FormRow type='password' name='password' labelText='Password' />
 				<div className={`${classNamePrefix}btn-row`}>
 					<Button
 						type='submit'

@@ -33,18 +33,8 @@ const Login = () => {
 			{user && <Navigate to='/projects' />}
 			<Form onSubmit={handleSubmit}>
 				<h1 className={`${classNamePrefix}header`}>Login</h1>
-				<FormRow
-					type='email'
-					name='email'
-					labelText='Email'
-					defaultValue='jane@jane.com'
-				/>
-				<FormRow
-					type='password'
-					name='password'
-					labelText='Password'
-					defaultValue='pw123456'
-				/>
+				<FormRow type='email' name='email' labelText='Email' />
+				<FormRow type='password' name='password' labelText='Password' />
 				<div className={`${classNamePrefix}btn-row`}>
 					<Button
 						type='submit'

@@ -7,7 +7,7 @@ const FormRow: React.FC<{
 	type: string;
 	name: string;
 	labelText: string;
-	defaultValue: string | number;
+	defaultValue?: string | number;
 }> = ({ type, name, labelText, defaultValue }) => {
 	return (
 		<div className={className}>
