@@ -24,6 +24,6 @@ router.patch(
 	updateProject
 );
 
-router.delete("project/:id", validateProjectIdParam, deleteProject);
+router.delete("/project/:id", validateProjectIdParam, deleteProject);
 
 export default router;

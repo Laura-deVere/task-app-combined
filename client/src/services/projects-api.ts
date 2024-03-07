@@ -13,7 +13,6 @@ class ProjectsApi {
 	}
 
 	createProject(project: Project) {
-		console.log("body project", project);
 		return customFetch
 			.post(`/project`, project)
 			.then((data) => data)

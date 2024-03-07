@@ -79,7 +79,6 @@ const ProjectsProvider: React.FC<{ children: any; isLoggedIn: boolean }> = ({
 		if (isLoggedIn) {
 			ProjectsApi.getProjects()
 				.then(({ data }) => {
-					console.log("projects", data.projects);
 					dispatch({ type: ACTIONS.GET_PROJECTS, payload: data?.projects });
 				})
 				.catch((err) => {
@@ -110,14 +109,16 @@ const ProjectsProvider: React.FC<{ children: any; isLoggedIn: boolean }> = ({
 	const updateProject = async (project: Project) => {
 		try {
 			const updatedProject = await ProjectsApi.editProject(project);
-			dispatch({ type: ACTIONS.EDIT_PROJECT, payload: updatedProject });
+			dispatch({
+				type: ACTIONS.EDIT_PROJECT,
+				payload: updatedProject.data.project,
+			});
 		} catch (error) {
 			console.log(error);
 		}
 	};
 
 	const setProjects = (newProjectsArray: ProjectsArray) => {
-		console.log("setProjects", newProjectsArray);
 		dispatch({ type: ACTIONS.GET_PROJECTS, payload: newProjectsArray });
 	};
 

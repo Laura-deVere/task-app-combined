@@ -1,12 +1,18 @@
 import { Outlet } from "react-router-dom";
 
+import { CurrentUserProvider } from "../context/current-user-context";
+
 import TopNav from "../components/top-nav";
 
-const PageHome: React.FC<{}> = () => {
+const PageHome = () => {
 	return (
-		<div id='pageHome'>
-			<TopNav userName={"user?.firstName"} />
-			<Outlet />
+		<div id='app'>
+			<CurrentUserProvider>
+				<TopNav />
+				<main id='main-content'>
+					<Outlet />
+				</main>
+			</CurrentUserProvider>
 		</div>
 	);
 };

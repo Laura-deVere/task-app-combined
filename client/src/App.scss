@@ -1,11 +1,41 @@
 @import url("https://fonts.googleapis.com/css2?family=Montserrat:wght@200;300;400;500&display=swap");
 @import "./scss/colors.scss";
 
+* {
+	box-sizing: border-box;
+}
+
+*:focus-visible {
+	outline: 1px dotted $gray-6;
+}
+
 body {
 	margin: 0;
 	padding: 0;
 	background-color: #1f2022;
 	font-family: "Montserrat", sans-serif;
+}
+
+html,
+body,
+#root,
+#app,
+#pageHome,
+#pageProjects {
+	height: 100%;
+	width: 100%;
+}
+
+#app {
+	display: flex;
+	flex-direction: column;
+}
+
+#main-content {
+	flex: 1;
+	display: flex;
+	align-items: center;
+	justify-content: center;
 }
 
 .sr-only {
@@ -15,14 +45,6 @@ body {
 	width: 1px;
 	height: 1px;
 	overflow: hidden;
-}
-
-* {
-	box-sizing: border-box;
-}
-
-*:focus-visible {
-	outline: 1px dotted $gray-6;
 }
 
 ul {
@@ -47,21 +69,14 @@ ul {
 	}
 }
 
-input[type="text"] {
-	background-color: $gray-3;
-	border: none;
-	color: white;
-	padding: 8px;
-	font-size: 16px;
-	font-family: "Montserrat", sans-serif;
-	font-weight: 300;
-	width: 100%;
-}
-
 .section-prj-new {
 	padding: 24px 96px;
 }
 
 .section-prj-list {
 	padding: 24px 48px;
+}
+
+a {
+	color: $orange;
 }

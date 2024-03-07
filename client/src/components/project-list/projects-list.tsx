@@ -23,24 +23,23 @@ const ProjectsList: React.FC = () => {
 
 	const moveProject = useCallback(
 		(dragIndex: number, hoverIndex: number) => {
-			console.log("moveProject", {
-				dragIndex: projects[dragIndex].name,
-				hoverIndex: projects[hoverIndex].name,
-			});
-			// const newProjectsArray = [...projects];
-			// const dragProject = newProjectsArray[dragIndex];
-			// newProjectsArray.splice(dragIndex, 1);
-			// newProjectsArray.splice(hoverIndex, 0, dragProject);
+			// console.log("moveProject", {
+			// 	dragIndex: projects[dragIndex].name,
+			// 	hoverIndex: projects[hoverIndex].name,
+			// });
+			// // const newProjectsArray = [...projects];
+			// // const dragProject = newProjectsArray[dragIndex];
+			// // newProjectsArray.splice(dragIndex, 1);
+			// // newProjectsArray.splice(hoverIndex, 0, dragProject);
+			// // setProjects(newProjectsArray);
+			// const newProjectsArray = update(projects, {
+			// 	$splice: [
+			// 		[dragIndex, 1],
+			// 		[hoverIndex, 0, projects[dragIndex]],
+			// 	],
+			// });
+			// // console.log("newProjectsArray", newProjectsArray);
 			// setProjects(newProjectsArray);
-
-			const newProjectsArray = update(projects, {
-				$splice: [
-					[dragIndex, 1],
-					[hoverIndex, 0, projects[dragIndex]],
-				],
-			});
-			// console.log("newProjectsArray", newProjectsArray);
-			setProjects(newProjectsArray);
 		},
 		[projects]
 	);

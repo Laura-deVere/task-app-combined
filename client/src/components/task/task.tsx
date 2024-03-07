@@ -1,8 +1,9 @@
-import { useCallback, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { IonIcon } from "@ionic/react";
+import { trashOutline } from "ionicons/icons";
 
 import Checkbox from "../checkbox/checkbox";
-import useDebounce from "../../hooks/useDebounce";
+import { useDebouncedValue } from "../../hooks/useDouncedValue";
 
 import "./task.scss";
 
@@ -10,28 +11,21 @@ const className = "task";
 const classNamePrefix = `${className}__`;
 
 const Task: React.FC<{
-	id: string;
+	id: string | undefined;
 	name: string;
 	completed: boolean;
-	onChange: (id: string, value: string, completed: boolean) => void;
-	onDelete: (id: string) => void;
+	onChange: (id: string | undefined, value: string, completed: boolean) => void;
+	onDelete: (id: string | undefined) => void;
 }> = ({ id, name, completed, onChange, onDelete }) => {
 	const [localName, setLocalName] = useState(name);
 	const [localCompleted, setLocalCompleted] = useState(completed);
 
-	const { debouncedCallback } = useDebounce();
-
-	const debounceUpdateProject = useCallback(
-		debouncedCallback(() => {
-			onChange(id, localName, localCompleted);
-		}, 500),
-		[]
-	);
+	const debouncedName = useDebouncedValue(name, localName, 500);
 
 	useEffect(() => {
-		if (localName === name && localCompleted === completed) return;
-		debounceUpdateProject(id, localName, localCompleted);
-	}, [localName, localCompleted]);
+		if (debouncedName === name && localCompleted === completed) return;
+		onChange(id, debouncedName, localCompleted);
+	}, [debouncedName, localCompleted]);
 
 	const onNameChangeHandler = (value: string) => {
 		setLocalName(value);
@@ -49,7 +43,7 @@ const Task: React.FC<{
 					evt.preventDefault();
 					onCompletedChangeHandler(checked);
 				}}
-				id={id}
+				id={id ?? name}
 				label={name}
 			/>
 			<div className={`${classNamePrefix}input-wrapper`}>
@@ -67,7 +61,7 @@ const Task: React.FC<{
 						onDelete(id);
 					}}
 				>
-					<IonIcon color='light' icon={"trash-outline"} />
+					<IonIcon color='light' icon={trashOutline} />
 				</button>
 			</div>
 		</li>

@@ -1,36 +1,31 @@
-import React, { useMemo } from "react";
-import { redirect, useLoaderData } from "react-router-dom";
+import { useContext } from "react";
+import { Navigate } from "react-router-dom";
 
+import { CurrentUserContext } from "../context/current-user-context";
 import { ProjectsProvider } from "../context/projects-context";
 import NewProject from "../components/new-project/new-project";
 import ProjectsList from "../components/project-list/projects-list";
-import customFetch from "../utils/customFetch";
 
-export const loader = async () => {
-	try {
-		const { data } = await customFetch.get("/users/current-user");
-		return data;
-	} catch (error) {
-		return redirect("/login");
+const REDIRECT_PATH = "/login";
+
+const PageProjects = () => {
+	const { user } = useContext(CurrentUserContext);
+
+	if (!user) {
+		return <Navigate to={REDIRECT_PATH} replace />;
 	}
-};
 
-const PageProjects: React.FC<{}> = () => {
-	const data = useLoaderData();
-	const isLoggedIn = useMemo(() => {
-		if (!data) return false;
-		return data?.user ? true : false;
-	}, [data]);
-	console.log("isLoggedIn", isLoggedIn);
 	return (
-		<ProjectsProvider isLoggedIn={isLoggedIn}>
-			<section className='section-prj-new'>
-				<NewProject />
-			</section>
-			<section className='section-prj-list'>
-				<ProjectsList />
-			</section>
-		</ProjectsProvider>
+		<div id='pageProjects'>
+			<ProjectsProvider isLoggedIn={user ?? false}>
+				<section className='section-prj-new'>
+					<NewProject />
+				</section>
+				<section className='section-prj-list'>
+					<ProjectsList />
+				</section>
+			</ProjectsProvider>
+		</div>
 	);
 };
 

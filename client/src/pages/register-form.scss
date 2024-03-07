@@ -1,0 +1,19 @@
+@import "../scss/colors.scss";
+
+.register-form {
+	background-color: white;
+	display: flex;
+	flex-direction: column;
+	padding: 48px;
+	border-radius: 8px;
+	max-width: 450px;
+	min-width: 370px;
+	&__header {
+		text-align: center;
+	}
+	&__btn-row {
+		display: flex;
+		align-items: flex-end;
+		justify-content: flex-end;
+	}
+}

@@ -2,14 +2,11 @@ import { RouterProvider, createBrowserRouter } from "react-router-dom";
 
 import PageHome from "./pages/Home";
 import PageError from "./pages/Error";
-import PageLanding from "./pages/Landing";
 import PageProjects from "./pages/Projects";
 import PageRegister from "./pages/Register";
 import PageLogin from "./pages/Login";
 
 import { action as registerAction } from "./pages/Register";
-import { action as loginAction } from "./pages/Login";
-import { loader as ProjectsLoader } from "./pages/Projects";
 
 import "./App.scss";
 
@@ -21,7 +18,7 @@ const router = createBrowserRouter([
 		children: [
 			{
 				index: true,
-				element: <PageLanding />,
+				element: <PageLogin />,
 			},
 			{
 				path: "register",
@@ -29,14 +26,8 @@ const router = createBrowserRouter([
 				action: registerAction,
 			},
 			{
-				path: "login",
-				element: <PageLogin />,
-				action: loginAction,
-			},
-			{
 				path: "projects",
 				element: <PageProjects />,
-				loader: ProjectsLoader,
 			},
 			{
 				path: "/*",

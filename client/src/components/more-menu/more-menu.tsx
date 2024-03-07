@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { IonIcon } from "@ionic/react";
+import { ellipsisVerticalOutline } from "ionicons/icons";
 
 import "./more-menu.scss";
 
@@ -28,7 +29,7 @@ const MoreMenu: React.FC<{ items: MenuItemsArray }> = ({ items }) => {
 					setIsOpen(!isOpen);
 				}}
 			>
-				<IonIcon color='light' icon={"ellipsis-vertical-outline"} />
+				<IonIcon color='light' icon={ellipsisVerticalOutline} />
 			</button>
 			<ul
 				className={`${classNamePrefix}list ${

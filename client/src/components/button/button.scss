@@ -1,0 +1,33 @@
+@import "../../scss/colors.scss";
+
+.btn {
+	align-self: flex-end;
+	background-color: $orange;
+	border: none;
+	color: $gray-2;
+	padding: 4px 8px;
+	border-radius: 4px;
+	font-size: 14px;
+	font-family: "Montserrat", sans-serif;
+	font-weight: 300;
+	cursor: pointer;
+	&:focus-visible {
+		outline: 1px dotted $orange;
+		outline-offset: 2px;
+	}
+}
+
+.btn__primary {
+	background-color: $orange;
+	color: $gray-2;
+}
+
+.btn__secondary {
+	background-color: $gray-6;
+	color: $gray-2;
+}
+
+.btn__tertiary {
+	background-color: transparent;
+	color: $orange;
+}

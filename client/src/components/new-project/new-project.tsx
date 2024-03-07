@@ -1,9 +1,11 @@
 import { useState, useContext } from "react";
 import nextId from "react-id-generator";
 import { IonIcon } from "@ionic/react";
+import { addOutline } from "ionicons/icons";
 
 import { ProjectsContext } from "../../context/projects-context";
 
+import Button from "../button/button";
 import Task from "../task/task";
 
 import "./new-project.scss";
@@ -23,7 +25,6 @@ const NewProject: React.FC = () => {
 
 	const handleAddProject = (evt: React.FormEvent<HTMLFormElement>) => {
 		evt.preventDefault();
-		// console.log("handleAddProject", { name: stateName, tasks: tasks });
 		createProject({ name: stateName, tasks: tasks });
 		handleReset();
 	};
@@ -31,7 +32,6 @@ const NewProject: React.FC = () => {
 	const handleReset = () => {
 		setStateName("");
 		setTasks([{ id: nextId(baseTaskId), name: "", completed: false }]);
-		// setProjectId(nextId(baseProjId));
 	};
 
 	const addTask = () => {
@@ -88,11 +88,14 @@ const NewProject: React.FC = () => {
 
 				<div className={`${classNamePrefix}action-btns`}>
 					<button type='button' className='add-task' onClick={addTask}>
-						<IonIcon color='light' icon={"add-outline"} />
+						<IonIcon color='light' icon={addOutline} />
 					</button>
-					<button type='submit' disabled={!stateName}>
-						Save
-					</button>
+					<Button
+						display='primary'
+						type='submit'
+						disabled={!stateName}
+						text='Save'
+					/>
 				</div>
 			</form>
 		</div>

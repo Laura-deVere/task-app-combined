@@ -7,7 +7,8 @@ import {
 	useRef,
 } from "react";
 import { IonIcon } from "@ionic/react";
-import { isEqual } from "lodash";
+import { addOutline } from "ionicons/icons";
+import { isEqual, cloneDeep } from "lodash";
 import { useDrag, useDrop } from "react-dnd";
 
 import { Project, TaskType } from "../../types";
@@ -33,7 +34,7 @@ const ProjectCard: React.FC<{
 }> = ({ project, moveProject, index, name, tasks, _id }) => {
 	const ref = useRef<HTMLLIElement>(null);
 
-	const [localProject, setLocalProject] = useState(Object.assign(project, {}));
+	const [localProject, setLocalProject] = useState(cloneDeep(project));
 	const { deleteProject, updateProject } = useContext(ProjectsContext);
 
 	const [{ handlerId }, drop] = useDrop({
@@ -123,37 +124,9 @@ const ProjectCard: React.FC<{
 	const opacity = isDragging ? 0 : 1;
 	drag(drop(ref));
 
-	// const tasks = useMemo(() => {
-	// 	if (!localProject) return [];
-	// 	return localProject.tasks;
-	// }, [localProject]);
-
-	const projectRef = useRef<Project | null>(null);
-
-	useEffect(() => {
-		projectRef.current = { ...localProject };
-	}, [localProject]);
-
-	function handleUpdateProject(
-		taskId: string,
-		name: string,
-		completed: boolean
-	) {
-		const copyTasks = projectRef.current?.tasks.map((task) => {
-			if (task._id === taskId) {
-				task.name = name;
-				task.completed = completed;
-			}
-			return task;
-		});
-		const newProject = { ...localProject, tasks: copyTasks };
-
-		updateProject(newProject);
-	}
-
 	useEffect(() => {
 		if (isEqual(localProject, project)) return;
-		setLocalProject(Object.assign(project, {}));
+		setLocalProject(cloneDeep(project));
 	}, [project]);
 
 	const menuItems = useMemo(() => {
@@ -168,7 +141,7 @@ const ProjectCard: React.FC<{
 	}, [localProject, deleteProject]);
 
 	const handleDeleteTask = useCallback(
-		(taskId: string) => {
+		(taskId: string | undefined) => {
 			const newTasks = localProject.tasks.filter((task) => task._id !== taskId);
 			const newProject = { ...localProject, tasks: newTasks };
 			updateProject(newProject);
@@ -177,11 +150,27 @@ const ProjectCard: React.FC<{
 	);
 
 	const handleNewTask = useCallback(() => {
-		const newTasks = [...localProject.tasks, { name: "", completed: false }];
+		const newTasks = localProject.tasks.map((task) => Object.assign(task, {}));
+		newTasks.push({ name: "", completed: false });
 		const newProject = { ...localProject, tasks: newTasks };
 		updateProject(newProject);
 	}, [localProject]);
 
+	const handleUpdateProject = useCallback(
+		(taskId: string | undefined, name: string, completed: boolean) => {
+			const copyTasks = localProject?.tasks.map((task) => {
+				if (task._id === taskId) {
+					task.name = name;
+					task.completed = completed;
+				}
+				return task;
+			});
+			const newProject = { ...localProject, tasks: copyTasks };
+			if (isEqual(newProject, project)) return;
+			updateProject(newProject);
+		},
+		[localProject]
+	);
 	// const opacity = isDragging ? 0 : 1;
 	// drag(drop(ref));
 
@@ -219,7 +208,7 @@ const ProjectCard: React.FC<{
 						className={`${classNamePrefix}new-task`}
 						onClick={handleNewTask}
 					>
-						<IonIcon color='light' icon={"add-outline"} />
+						<IonIcon color='light' icon={addOutline} />
 					</button>
 					<MoreMenu items={menuItems} />
 				</footer>

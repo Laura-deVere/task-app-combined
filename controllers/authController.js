@@ -19,7 +19,7 @@ export const login = async (req, res) => {
 
 	const isValidUser = user && (await comparePassword(password, user.password));
 	if (!isValidUser) throw new UnauthenticatedError("Invalid credentials");
-	console.log("user", user);
+
 	const token = generateToken({ userId: user._id });
 	const oneDay = 1000 * 60 * 60 * 24;
 	//frontend responsible for storing the token and sending it back with each request
@@ -32,7 +32,6 @@ export const login = async (req, res) => {
 };
 
 export const logout = async (req, res) => {
-	console.log("logging out on server");
 	res.cookie("token", "logout", {
 		httpOnly: true,
 		expires: new Date(Date.now() + 1000), //expire now

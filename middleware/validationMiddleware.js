@@ -38,16 +38,16 @@ export const validateProject = withValidationErrors([
 ]);
 
 export const validateProjectIdParam = withValidationErrors([
-	param("id").custom(async (value) => {
-		const isValid = mongoose.Types.ObjectId.isValid(value);
-		if (!isValid) throw new BadRequestError("Invalid mongoDB id.");
-
+	param("id").custom(async (value, { req }) => {
+		const isValidMongoId = mongoose.Types.ObjectId.isValid(value);
+		if (!isValidMongoId) throw new BadRequestError("invalid MongoDB id");
 		const project = await Project.findById(value);
-		if (!project) throw new NotFoundError("project not found");
+		if (!project) throw new NotFoundError(`no project with id ${value}`);
 
-		const isOwner = project.userId.toString() === req.user.userId;
+		const isOwner = req.user.userId === project.userId.toString();
+
 		if (!isOwner)
-			throw new UnauthorizedError("not authorized to access this route.");
+			throw new UnauthorizedError("not authorized to access this route");
 	}),
 ]);
 

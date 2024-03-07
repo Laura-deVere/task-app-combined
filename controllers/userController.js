@@ -4,7 +4,6 @@ import Project from "../models/Project.js";
 import User from "../models/User.js";
 
 export const getCurrentUser = async (req, res) => {
-	console.log("getCurrentUser +++++++++++++++++++", req.user);
 	const user = await User.findOne({ _id: req.user.userId });
 	const userWithoutPassword = user.toJSON();
 	res.status(StatusCodes.OK).json({ user: userWithoutPassword });

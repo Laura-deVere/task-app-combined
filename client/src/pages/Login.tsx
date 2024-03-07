@@ -1,34 +1,40 @@
-import { Link, Form, redirect, useNavigation } from "react-router-dom";
+import { useContext, useState } from "react";
+import { Link, Form, Navigate } from "react-router-dom";
 
-import { toast } from "react-toastify";
+import { CurrentUserContext } from "../context/current-user-context";
 
-import customFetch from "../utils/customFetch";
+import Button from "../components/button/button";
 import FormRow from "../components/form-row/form-row";
 
-export const action = async ({ request }) => {
-	const formData = await request.formData();
-	const data = Object.fromEntries(formData);
+import "./register-form.scss";
 
-	try {
-		await customFetch.post("/auth/login", data);
-		toast.success("Login successful");
-		return redirect("/projects");
-	} catch (error) {
-		// toast.error(error?.response?.data?.message);
-		toast.error("Login failed.");
-		return error;
-	}
-};
+const className = "register-form";
+const classNamePrefix = `${className}__`;
 
-const Login: React.FC<{}> = () => {
-	const navigation = useNavigation();
-	const isSubmitting = navigation.state === "submitting";
+const Login = () => {
+	const [isSubmitting, setIsSubmitting] = useState(false);
+
+	const { user, handleSignIn } = useContext(CurrentUserContext);
+
+	const handleSubmit = async (evt: React.SyntheticEvent) => {
+		evt.preventDefault();
+		setIsSubmitting(true);
+		const target = evt.target as typeof evt.target & {
+			email: { value: string };
+			password: { value: string };
+		};
+		const data = { email: target.email.value, password: target.password.value };
+		await handleSignIn(data);
+		setIsSubmitting(false);
+	};
+
 	return (
-		<section id='pageLogin'>
-			<Form method='post'>
-				<h1>Login</h1>
+		<section id='pageLogin' className={className}>
+			{user && <Navigate to='/projects' />}
+			<Form onSubmit={handleSubmit}>
+				<h1 className={`${classNamePrefix}header`}>Login</h1>
 				<FormRow
-					type='text'
+					type='email'
 					name='email'
 					labelText='Email'
 					defaultValue='jane@jane.com'
@@ -39,12 +45,19 @@ const Login: React.FC<{}> = () => {
 					labelText='Password'
 					defaultValue='pw123456'
 				/>
-				<button type='submit' disabled={isSubmitting}>
-					{isSubmitting ? "Submitting..." : "Login"}
-				</button>
-				<p>
-					Not registered? <Link to='/register'>Sign up</Link>
-				</p>
+				<div className={`${classNamePrefix}btn-row`}>
+					<Button
+						type='submit'
+						display='primary'
+						text={isSubmitting ? "Submitting..." : "Login"}
+						disabled={isSubmitting}
+					/>
+				</div>
+				<footer>
+					<p>
+						Not registered? <Link to='/register'>Sign up</Link>
+					</p>
+				</footer>
 			</Form>
 		</section>
 	);
