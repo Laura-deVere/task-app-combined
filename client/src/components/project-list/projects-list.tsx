@@ -1,4 +1,4 @@
-import update from "immutability-helper";
+// import update from "immutability-helper";
 import { useCallback, useContext, useRef, useEffect } from "react";
 import ReactDOM from "react-dom";
 import { DndProvider } from "react-dnd";
@@ -14,35 +14,33 @@ const className = "projects-list";
 
 const ProjectsList: React.FC = () => {
 	const gridRef = useRef(null);
-	const { projects, setProjects } = useContext(ProjectsContext);
+	const { projects } = useContext(ProjectsContext);
 
 	useEffect(() => {
 		const grid = gridRef.current;
 		if (grid) adjustGridItemsHeight(grid);
 	});
 
-	const moveProject = useCallback(
-		(dragIndex: number, hoverIndex: number) => {
-			// console.log("moveProject", {
-			// 	dragIndex: projects[dragIndex].name,
-			// 	hoverIndex: projects[hoverIndex].name,
-			// });
-			// // const newProjectsArray = [...projects];
-			// // const dragProject = newProjectsArray[dragIndex];
-			// // newProjectsArray.splice(dragIndex, 1);
-			// // newProjectsArray.splice(hoverIndex, 0, dragProject);
-			// // setProjects(newProjectsArray);
-			// const newProjectsArray = update(projects, {
-			// 	$splice: [
-			// 		[dragIndex, 1],
-			// 		[hoverIndex, 0, projects[dragIndex]],
-			// 	],
-			// });
-			// // console.log("newProjectsArray", newProjectsArray);
-			// setProjects(newProjectsArray);
-		},
-		[projects]
-	);
+	const moveProject = useCallback(() => {
+		// (dragIndex: number, hoverIndex: number) => {
+		// console.log("moveProject", {
+		// 	dragIndex: projects[dragIndex].name,
+		// 	hoverIndex: projects[hoverIndex].name,
+		// });
+		// // const newProjectsArray = [...projects];
+		// // const dragProject = newProjectsArray[dragIndex];
+		// // newProjectsArray.splice(dragIndex, 1);
+		// // newProjectsArray.splice(hoverIndex, 0, dragProject);
+		// // setProjects(newProjectsArray);
+		// const newProjectsArray = update(projects, {
+		// 	$splice: [
+		// 		[dragIndex, 1],
+		// 		[hoverIndex, 0, projects[dragIndex]],
+		// 	],
+		// });
+		// // console.log("newProjectsArray", newProjectsArray);
+		// setProjects(newProjectsArray);
+	}, [projects]);
 
 	return (
 		<DndProvider backend={HTML5Backend}>

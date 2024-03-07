@@ -43,7 +43,11 @@ const NewProject: React.FC = () => {
 		});
 	};
 
-	const handleTaskChange = (id: string, name: string, completed: boolean) => {
+	const handleTaskChange = (
+		id: string | undefined,
+		name: string,
+		completed: boolean
+	) => {
 		setTasks((prevTasks) => {
 			const taskIndex = prevTasks.findIndex((task) => task.id === id);
 			const newTask = { ...prevTasks[taskIndex], name, completed };
@@ -53,7 +57,7 @@ const NewProject: React.FC = () => {
 		});
 	};
 
-	const handleDeleteTask = (taskId: string) => {
+	const handleDeleteTask = (taskId: string | undefined) => {
 		setTasks((prevTasks) => {
 			return prevTasks.filter((task) => task.id !== taskId);
 		});
