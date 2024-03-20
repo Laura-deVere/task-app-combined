@@ -1,4 +1,4 @@
-// import update from "immutability-helper";
+import update from "immutability-helper";
 import { useCallback, useContext, useRef, useEffect } from "react";
 import ReactDOM from "react-dom";
 import { DndProvider } from "react-dnd";
@@ -7,6 +7,7 @@ import { HTML5Backend } from "react-dnd-html5-backend";
 import ProjectCard from "../project-card/project-card";
 import { Project } from "../../types";
 import { ProjectsContext } from "../../context/projects-context";
+import CustomDragLayer from "../../components/custom-drag-layer/custom-drag-layer";
 
 import "./projects-list.scss";
 
@@ -14,36 +15,38 @@ const className = "projects-list";
 
 const ProjectsList: React.FC = () => {
 	const gridRef = useRef(null);
-	const { projects } = useContext(ProjectsContext);
+	const { projects, setProjects } = useContext(ProjectsContext);
 
 	useEffect(() => {
 		const grid = gridRef.current;
 		if (grid) adjustGridItemsHeight(grid);
 	});
 
-	const moveProject = useCallback(() => {
-		// (dragIndex: number, hoverIndex: number) => {
-		// console.log("moveProject", {
-		// 	dragIndex: projects[dragIndex].name,
-		// 	hoverIndex: projects[hoverIndex].name,
-		// });
-		// // const newProjectsArray = [...projects];
-		// // const dragProject = newProjectsArray[dragIndex];
-		// // newProjectsArray.splice(dragIndex, 1);
-		// // newProjectsArray.splice(hoverIndex, 0, dragProject);
-		// // setProjects(newProjectsArray);
-		// const newProjectsArray = update(projects, {
-		// 	$splice: [
-		// 		[dragIndex, 1],
-		// 		[hoverIndex, 0, projects[dragIndex]],
-		// 	],
-		// });
-		// // console.log("newProjectsArray", newProjectsArray);
-		// setProjects(newProjectsArray);
-	}, [projects]);
+	const moveProject = useCallback(
+		(dragIndex: number, hoverIndex: number) => {
+			console.log("moveProject", {
+				dragIndex: projects[dragIndex].name,
+				hoverIndex: projects[hoverIndex].name,
+			});
+			// const newProjectsArray = [...projects];
+			// const dragProject = newProjectsArray[dragIndex];
+			// newProjectsArray.splice(dragIndex, 1);
+			// newProjectsArray.splice(hoverIndex, 0, dragProject);
+			// setProjects(newProjectsArray);
+			const newProjectsArray = update(projects, {
+				$splice: [
+					[dragIndex, 1],
+					[hoverIndex, 0, projects[dragIndex]],
+				],
+			});
+			setProjects(newProjectsArray);
+		},
+		[projects]
+	);
 
 	return (
 		<DndProvider backend={HTML5Backend}>
+			<CustomDragLayer />
 			<ul className={className} ref={gridRef}>
 				{projects.map((project: Project, index: number) => {
 					const { _id, name, tasks } = project;
