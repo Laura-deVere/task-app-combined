@@ -16,10 +16,8 @@ export const createProject = async (req, res) => {
 	const { userId } = req.user;
 	const project = await Project.create({ name, tasks, userId });
 	const user = await User.findOne({ _id: req.user.userId });
-	console.log("user.projects--------------------------", user.projects);
 	const userProjectIds = user.projects.map((id) => id);
 	userProjectIds.unshift(project._id);
-	console.log("userProjectIds--------------------------", userProjectIds);
 	await user.updateOne({ projects: userProjectIds });
 	res.status(StatusCodes.CREATED).json({ project });
 };

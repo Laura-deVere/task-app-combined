@@ -16,9 +16,7 @@ export const updateUser = async (req, res) => {
 };
 
 export const updateUserProjects = async (req, res) => {
-	const { id } = req.params;
-	console.log("req.body", req.body);
-	console.log("id", id);
+	const id = req.user.userId;
 	const user = await User.findByIdAndUpdate(
 		id,
 		{ projects: req.body },

@@ -45,10 +45,7 @@ class ProjectsApi {
 	updateProjects(projectIds: string[]) {
 		return customFetch
 			.post(`/users/update-user/projects`, projectIds)
-			.then((data) => {
-				console.log(data);
-				return data;
-			})
+			.then((data) => data)
 			.catch((err) => {
 				console.error(err);
 				return err;
