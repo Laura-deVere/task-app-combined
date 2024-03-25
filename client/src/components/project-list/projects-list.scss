@@ -3,4 +3,7 @@
 	grid-gap: 15px;
 	grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
 	grid-auto-rows: 180px;
+	position: relative;
+	transform: translate3d(0, 0, 0);
+	width: 100%;
 }

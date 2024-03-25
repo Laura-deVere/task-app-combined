@@ -9,7 +9,8 @@ import {
 import { IonIcon } from "@ionic/react";
 import { addOutline } from "ionicons/icons";
 import { isEqual, cloneDeep } from "lodash";
-import { useDrag, useDrop } from "react-dnd";
+import { useSortable } from "@dnd-kit/sortable";
+import { CSS } from "@dnd-kit/utilities";
 
 import { Project, TaskType } from "../../types";
 import { ProjectsContext } from "../../context/projects-context";
@@ -22,107 +23,23 @@ import "./project-card.scss";
 const className = "project-card";
 const classNamePrefix = `${className}__`;
 
-const DRAG_TYPE = "project";
-
 const ProjectCard: React.FC<{
 	project: Project;
 	name: string;
 	tasks: any;
 	_id: string;
-	moveProject: (dragIndex: number, hoverIndex: number) => void;
 	index: number;
-}> = ({ project, moveProject, index, name, tasks, _id }) => {
-	const ref = useRef<HTMLLIElement>(null);
-
+}> = ({ project, index, name, tasks, _id }) => {
 	const [localProject, setLocalProject] = useState(cloneDeep(project));
 	const { deleteProject, updateProject } = useContext(ProjectsContext);
 
-	const [{ handlerId }, drop] = useDrop({
-		accept: DRAG_TYPE,
-		collect(monitor) {
-			return {
-				handlerId: monitor.getHandlerId(),
-			};
-		},
-		hover(item: any, monitor): void {
-			if (!ref.current) {
-				return;
-			}
-			const dragIndex = item.index;
-			const hoverIndex = index;
-			// Don't replace items with themselves
-			if (dragIndex === hoverIndex) {
-				return;
-			}
+	const { attributes, listeners, setNodeRef, transform, transition } =
+		useSortable({ id: _id });
 
-			const hoverBoundingRect = ref.current.getBoundingClientRect();
-			const hoverMiddleY =
-				(hoverBoundingRect.bottom - hoverBoundingRect.top) / 2;
-			const hoverMiddleX =
-				(hoverBoundingRect.right - hoverBoundingRect.left) / 2;
-			const clientOffset = monitor.getClientOffset();
-			const hoverClientY = clientOffset!.y - hoverBoundingRect.top;
-			const hoverClientX = clientOffset!.x - hoverBoundingRect.right;
-
-			// Only perform the move when the mouse has crossed half of the items height or width
-			// When dragging downwards or right to left, only move when the cursor is below 50%
-			if (
-				dragIndex < hoverIndex &&
-				hoverClientY < hoverMiddleY &&
-				hoverClientX < hoverMiddleX
-			) {
-				return;
-			}
-
-			// When dragging upwards or left to right, only move when the cursor is above 50%
-			if (
-				dragIndex > hoverIndex &&
-				hoverClientY > hoverMiddleY &&
-				hoverClientX > hoverMiddleX
-			) {
-				return;
-			}
-
-			// Determine rectangle on screen
-			// const hoverBoundingRect = ref.current?.getBoundingClientRect();
-			// // Get vertical middle
-			// const hoverMiddleY =
-			// 	(hoverBoundingRect.bottom - hoverBoundingRect.top) / 2;
-			// // Determine mouse position
-			// const clientOffset = monitor.getClientOffset();
-			// // Get pixels to the top
-			// const hoverClientY = clientOffset.y - hoverBoundingRect.top;
-			// Only perform the move when the mouse has crossed half of the items height
-			// When dragging downwards, only move when the cursor is below 50%
-			// When dragging upwards, only move when the cursor is above 50%
-			// Dragging downwards
-			// if (dragIndex < hoverIndex && hoverClientY < hoverMiddleY) {
-			// 	return;
-			// }
-			// // Dragging upwards
-			// if (dragIndex > hoverIndex && hoverClientY > hoverMiddleY) {
-			// 	return;
-			// }
-			// Time to actually perform the action
-			moveProject(dragIndex, hoverIndex);
-			// Note: we're mutating the monitor item here!
-			// Generally it's better to avoid mutations,
-			// but it's good here for the sake of performance
-			// to avoid expensive index searches.
-			item.index = hoverIndex;
-		},
-	});
-	const [{ isDragging }, drag] = useDrag({
-		type: "card",
-		item: () => {
-			return { id: _id, index };
-		},
-		collect: (monitor) => ({
-			isDragging: monitor.isDragging(),
-		}),
-	});
-	const opacity = isDragging ? 0 : 1;
-	drag(drop(ref));
+	const style = {
+		transform: CSS.Transform.toString(transform),
+		transition,
+	};
 
 	useEffect(() => {
 		if (isEqual(localProject, project)) return;
@@ -171,19 +88,19 @@ const ProjectCard: React.FC<{
 		},
 		[localProject]
 	);
-	// const opacity = isDragging ? 0 : 1;
-	// drag(drop(ref));
 
 	return (
 		<li
 			className={className}
-			ref={ref}
-			style={{ opacity }}
-			data-handler-id={handlerId}
+			id={_id}
+			ref={setNodeRef}
+			style={style}
+			{...attributes}
+			{...listeners}
 		>
 			<div className={`${classNamePrefix}container`}>
 				<h3>
-					{name} - {index}
+					{name} -{index}
 				</h3>
 				<div className={`${classNamePrefix}tasks`}>
 					<ul>
@@ -217,82 +134,3 @@ const ProjectCard: React.FC<{
 	);
 };
 export default ProjectCard;
-
-// import { useRef } from "react";
-// import { useDrag, useDrop } from "react-dnd";
-// // import { ItemTypes } from "./ItemTypes.js";
-
-// const style = {
-// 	border: "1px dashed gray",
-// 	padding: "0.5rem 1rem",
-// 	marginBottom: ".5rem",
-// 	backgroundColor: "white",
-// 	cursor: "move",
-// };
-// export const Card = ({ id, text, index, moveCard }) => {
-// 	const ref = useRef(null);
-// 	const [{ handlerId }, drop] = useDrop({
-// 		accept: "card",
-// 		collect(monitor) {
-// 			return {
-// 				handlerId: monitor.getHandlerId(),
-// 			};
-// 		},
-// 		hover(item, monitor) {
-// 			if (!ref.current) {
-// 				return;
-// 			}
-// 			const dragIndex = item.index;
-// 			const hoverIndex = index;
-// 			// Don't replace items with themselves
-// 			if (dragIndex === hoverIndex) {
-// 				return;
-// 			}
-// 			// Determine rectangle on screen
-// 			const hoverBoundingRect = ref.current?.getBoundingClientRect();
-// 			// Get vertical middle
-// 			const hoverMiddleY =
-// 				(hoverBoundingRect.bottom - hoverBoundingRect.top) / 2;
-// 			// Determine mouse position
-// 			const clientOffset = monitor.getClientOffset();
-// 			// Get pixels to the top
-// 			const hoverClientY = clientOffset.y - hoverBoundingRect.top;
-// 			// Only perform the move when the mouse has crossed half of the items height
-// 			// When dragging downwards, only move when the cursor is below 50%
-// 			// When dragging upwards, only move when the cursor is above 50%
-// 			// Dragging downwards
-// 			if (dragIndex < hoverIndex && hoverClientY < hoverMiddleY) {
-// 				return;
-// 			}
-// 			// Dragging upwards
-// 			if (dragIndex > hoverIndex && hoverClientY > hoverMiddleY) {
-// 				return;
-// 			}
-// 			// Time to actually perform the action
-// 			moveCard(dragIndex, hoverIndex);
-// 			// Note: we're mutating the monitor item here!
-// 			// Generally it's better to avoid mutations,
-// 			// but it's good here for the sake of performance
-// 			// to avoid expensive index searches.
-// 			item.index = hoverIndex;
-// 		},
-// 	});
-// 	const [{ isDragging }, drag] = useDrag({
-// 		type: "card",
-// 		item: () => {
-// 			return { id, index };
-// 		},
-// 		collect: (monitor) => ({
-// 			isDragging: monitor.isDragging(),
-// 		}),
-// 	});
-// 	const opacity = isDragging ? 0 : 1;
-// 	drag(drop(ref));
-// 	return (
-// 		<div ref={ref} style={{ ...style, opacity }} data-handler-id={handlerId}>
-// 			{text}
-// 		</div>
-// 	);
-// };
-
-// export default Card;

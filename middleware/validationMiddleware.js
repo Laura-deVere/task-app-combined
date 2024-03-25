@@ -14,6 +14,7 @@ export const withValidationErrors = (validateValues) => {
 	return [
 		validateValues, // values to check
 		(req, res, next) => {
+			console.log(req);
 			const errors = validationResult(req); //checks for name in the body of incoming request
 			if (!errors.isEmpty()) {
 				const errorMessages = errors.array().map((error) => error.msg); //error.message
@@ -94,4 +95,8 @@ export const validateUpdateUser = withValidationErrors([
 			if (user && user._id.toString() !== req.user.userId)
 				throw new BadRequestError("Email already in use.");
 		}),
+]);
+
+export const validateUpdateUserProjects = withValidationErrors([
+	body().isArray().withMessage("Projects must be an array"),
 ]);

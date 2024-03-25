@@ -5,6 +5,12 @@ const UserSchema = new mongoose.Schema({
 	password: String,
 	firstName: String,
 	lastName: String,
+	projects: [
+		{
+			type: mongoose.Schema.Types.ObjectId,
+			ref: "Project",
+		},
+	],
 });
 
 UserSchema.methods.toJSON = function () {

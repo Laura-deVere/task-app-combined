@@ -9,15 +9,16 @@ import ProjectsList from "../components/project-list/projects-list";
 const REDIRECT_PATH = "/login";
 
 const PageProjects = () => {
-	const { user } = useContext(CurrentUserContext);
+	// const { user } = useContext(CurrentUserContext);
 
-	if (!user) {
-		return <Navigate to={REDIRECT_PATH} replace />;
-	}
+	// if (!user) {
+	// 	return <Navigate to={REDIRECT_PATH} replace />;
+	// }
 
 	return (
 		<div id='pageProjects'>
-			<ProjectsProvider isLoggedIn={user ?? false}>
+			{/* <ProjectsProvider isLoggedIn={user ?? false}> */}
+			<ProjectsProvider isLoggedIn={true}>
 				<section className='section-prj-new'>
 					<NewProject />
 				</section>

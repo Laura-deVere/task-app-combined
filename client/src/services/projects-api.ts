@@ -41,6 +41,16 @@ class ProjectsApi {
 				return err;
 			});
 	}
+
+	updateProjects(projectIds: string[]) {
+		return customFetch
+			.post(`/users/update-user/projects`, projectIds)
+			.then((data) => data)
+			.catch((err) => {
+				console.error(err);
+				return err;
+			});
+	}
 }
 
 export default new ProjectsApi();

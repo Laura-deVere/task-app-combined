@@ -41,7 +41,7 @@ function projectsReducer(state = initialState, action: ProjectsAction) {
 		case ACTIONS.CREATE_PROJECT: {
 			return {
 				...state,
-				projects: [...state.projects, payload],
+				projects: [payload, ...state.projects],
 			};
 		}
 		case ACTIONS.DELETE_PROJECT: {
@@ -118,6 +118,15 @@ const ProjectsProvider: React.FC<{ children: any; isLoggedIn: boolean }> = ({
 		}
 	};
 
+	const updateProjects = async (projects: ProjectsArray) => {
+		const projectIds = projects.map((project) => project._id);
+		try {
+			await ProjectsApi.updateProjects(projectIds);
+		} catch (error) {
+			console.log(error);
+		}
+	};
+
 	const setProjects = (newProjectsArray: ProjectsArray) => {
 		dispatch({ type: ACTIONS.GET_PROJECTS, payload: newProjectsArray });
 	};
@@ -127,6 +136,7 @@ const ProjectsProvider: React.FC<{ children: any; isLoggedIn: boolean }> = ({
 		createProject,
 		deleteProject,
 		updateProject,
+		updateProjects,
 		setProjects,
 	};
 
