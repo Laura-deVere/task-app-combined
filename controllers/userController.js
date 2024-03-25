@@ -1,6 +1,5 @@
 import { StatusCodes } from "http-status-codes";
 
-import Project from "../models/Project.js";
 import User from "../models/User.js";
 
 export const getCurrentUser = async (req, res) => {
@@ -14,4 +13,19 @@ export const updateUser = async (req, res) => {
 	delete obj.password;
 	const updatedUser = await User.findByIdAndUpdate(req.user.userId, obj);
 	res.status(StatusCodes.OK).json({ message: "update current user." });
+};
+
+export const updateUserProjects = async (req, res) => {
+	const { id } = req.params;
+	console.log("req.body", req.body);
+	console.log("id", id);
+	const user = await User.findByIdAndUpdate(
+		id,
+		{ projects: req.body },
+		{
+			new: true,
+		}
+	); //by default sends old obj without new true.
+
+	res.status(StatusCodes.OK).json({ message: "Projects updated.", user });
 };

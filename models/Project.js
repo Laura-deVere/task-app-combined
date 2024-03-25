@@ -8,7 +8,6 @@ const projectSchema = new Schema(
 		name: { type: String, required: true },
 		tasks: [TaskSchema],
 		userId: { type: Schema.Types.ObjectId, ref: "User", required: true },
-		// _userId: { type: String, ref: "User", required: false },
 	},
 	{ timestamps: true }
 );

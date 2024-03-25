@@ -9,6 +9,8 @@ import {
 	PointerSensor,
 	useSensor,
 	useSensors,
+	DragStartEvent,
+	DragEndEvent,
 } from "@dnd-kit/core";
 import {
 	arrayMove,
@@ -29,7 +31,7 @@ const ProjectsList: React.FC = () => {
 	const gridRef = useRef(null);
 
 	const [activeId, setActiveId] = useState<Project | null>(null);
-	const { projects, setProjects } = useContext(ProjectsContext);
+	const { projects, setProjects, updateProjects } = useContext(ProjectsContext);
 
 	const sensors = useSensors(
 		useSensor(PointerSensor),
@@ -44,19 +46,21 @@ const ProjectsList: React.FC = () => {
 	});
 
 	const handleDragEnd = useCallback(
-		(event) => {
+		(event: DragEndEvent) => {
 			const { active, over } = event;
-			console.log(active.id, over.id);
+			console.log(event);
 
-			if (active.id !== over.id) {
+			if (active.id !== over?.id) {
 				const oldIndex = projects.findIndex(
 					(project: Project) => project._id === active.id
 				);
 				const newIndex = projects.findIndex(
-					(project: Project) => project._id === over.id
+					(project: Project) => project._id === over?.id
 				);
 				const moveProject = arrayMove(projects, oldIndex, newIndex);
 				setProjects(moveProject);
+				console.log(moveProject);
+				updateProjects(moveProject);
 			}
 
 			setActiveId(null);
@@ -64,7 +68,7 @@ const ProjectsList: React.FC = () => {
 		[projects]
 	);
 
-	function handleDragStart(event) {
+	function handleDragStart(event: DragStartEvent) {
 		const { active } = event;
 
 		setActiveId(projects.find((project: Project) => project._id === active.id));

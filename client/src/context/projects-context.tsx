@@ -118,6 +118,16 @@ const ProjectsProvider: React.FC<{ children: any; isLoggedIn: boolean }> = ({
 		}
 	};
 
+	const updateProjects = async (projects: ProjectsArray) => {
+		const projectIds = projects.map((project) => project._id);
+		console.log("projectIds", projectIds);
+		try {
+			await ProjectsApi.updateProjects(projectIds);
+		} catch (error) {
+			console.log(error);
+		}
+	};
+
 	const setProjects = (newProjectsArray: ProjectsArray) => {
 		dispatch({ type: ACTIONS.GET_PROJECTS, payload: newProjectsArray });
 	};
@@ -127,6 +137,7 @@ const ProjectsProvider: React.FC<{ children: any; isLoggedIn: boolean }> = ({
 		createProject,
 		deleteProject,
 		updateProject,
+		updateProjects,
 		setProjects,
 	};
 
