@@ -14,7 +14,6 @@ export const withValidationErrors = (validateValues) => {
 	return [
 		validateValues, // values to check
 		(req, res, next) => {
-			console.log(req);
 			const errors = validationResult(req); //checks for name in the body of incoming request
 			if (!errors.isEmpty()) {
 				const errorMessages = errors.array().map((error) => error.msg); //error.message

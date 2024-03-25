@@ -20,7 +20,7 @@ const TopNav = () => {
 	const handleLogout = async () => {
 		handleUserSignOut();
 		await customFetch.get("/auth/logout");
-		navigate("/");
+		navigate("/login");
 		toast.success("You have been logged out");
 	};
 

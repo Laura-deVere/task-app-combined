@@ -17,7 +17,8 @@ const router = createBrowserRouter([
 		errorElement: <PageError />,
 		children: [
 			{
-				index: true,
+				// index: true,
+				path: "login",
 				element: <PageLogin />,
 			},
 			{
@@ -27,6 +28,7 @@ const router = createBrowserRouter([
 			},
 			{
 				path: "projects",
+				index: true,
 				element: <PageProjects />,
 			},
 			{
