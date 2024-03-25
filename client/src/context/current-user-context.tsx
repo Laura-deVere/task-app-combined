@@ -21,9 +21,7 @@ const CurrentUserProvider: React.FC<{ children: any }> = ({ children }) => {
 	const [user, setUser] = useState();
 
 	const timeoutRef = React.useRef<any>();
-
 	useEffect(() => {
-		if (!loggedIn) return;
 		setLoading(true);
 		getCurrentUser();
 		return () => {
@@ -45,15 +43,6 @@ const CurrentUserProvider: React.FC<{ children: any }> = ({ children }) => {
 			}, 1000);
 		}
 	}
-
-	// const parseJwt = (token) => {
-	//     const decode = JSON.parse(atob(token.split('.')[1]));
-	//     console.log(decode);
-	//     if (decode.exp * 1000 < new Date().getTime()) {
-	//         // do log out
-	//         console.log('Time Expired');
-	//     }
-	// };
 
 	const handleUserSignOut = () => {
 		setUser(undefined);

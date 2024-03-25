@@ -48,7 +48,6 @@ const ProjectsList: React.FC = () => {
 	const handleDragEnd = useCallback(
 		(event: DragEndEvent) => {
 			const { active, over } = event;
-			console.log(event);
 
 			if (active.id !== over?.id) {
 				const oldIndex = projects.findIndex(
@@ -59,7 +58,6 @@ const ProjectsList: React.FC = () => {
 				);
 				const moveProject = arrayMove(projects, oldIndex, newIndex);
 				setProjects(moveProject);
-				console.log(moveProject);
 				updateProjects(moveProject);
 			}
 
